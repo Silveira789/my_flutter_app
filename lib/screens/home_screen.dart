@@ -31,6 +31,12 @@ class HomeScreen extends StatelessWidget {
               },
             ),
             ListTile(
+              title: const Text('Posts'),
+              onTap: () {
+                Navigator.pushNamed(context, '/posts');
+              },
+            ),
+            ListTile(
               title: const Text('Sobre'),
               onTap: () {
                 Navigator.pushNamed(context, '/about');
