@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/post.dart';
-import '../services/api_service.dart';
+import '../../models/post.dart';
+import '../../services/api_service.dart';
 
 class PostsScreen extends StatefulWidget {
   const PostsScreen({super.key});
@@ -18,81 +18,76 @@ class _PostsScreenState extends State<PostsScreen> {
     futurePosts = ApiService().fetchPosts();
   }
 
-  void _reloadPosts() {
-    setState(() {
-      futurePosts = ApiService().fetchPosts();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Posts da API'),
+        title: const Text('Posts'),
       ),
       body: FutureBuilder<List<Post>>(
         future: futurePosts,
         builder: (context, snapshot) {
-          // Estado de carregamento
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
-          }
-
-          // Estado de erro
-          if (snapshot.hasError) {
+          } else if (snapshot.hasError) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
                     'Erro ao carregar os dados.',
-                    style: TextStyle(fontSize: 18, color: Colors.red),
+                    style: TextStyle(color: Colors.red),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 10),
                   ElevatedButton(
-                    onPressed: _reloadPosts,
+                    onPressed: () {
+                      setState(() {
+                        futurePosts = ApiService().fetchPosts();
+                      });
+                    },
                     child: const Text('Tentar novamente'),
                   ),
                 ],
               ),
             );
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('Nenhum post disponível.'));
           }
 
-          // Estado de sucesso com lista vazia
-          if (snapshot.hasData && snapshot.data!.isEmpty) {
-            return const Center(
-              child: Text(
-                'Nenhum post encontrado.',
-                style: TextStyle(fontSize: 16),
-              ),
-            );
-          }
-
-          // Estado de sucesso com dados
-          if (snapshot.hasData) {
-            final posts = snapshot.data!;
-            return ListView.builder(
-              itemCount: posts.length,
-              itemBuilder: (context, index) {
-                final post = posts[index];
-                return Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          final posts = snapshot.data!;
+          return ListView.builder(
+            itemCount: posts.length,
+            itemBuilder: (context, index) {
+              final post = posts[index];
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                child: Card(
                   elevation: 3,
-                  child: ListTile(
-                    title: Text(
-                      post.title,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          post.title,
+                          style: TextStyle(
+                            fontSize: screenWidth > 600 ? 22 : 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          post.body,
+                          style: TextStyle(fontSize: screenWidth > 600 ? 18 : 14),
+                        ),
+                      ],
                     ),
-                    subtitle: Text(post.body),
                   ),
-                );
-              },
-            );
-          }
-
-          // Estado desconhecido
-          return const Center(
-            child: Text('Ocorreu um erro inesperado.'),
+                ),
+              );
+            },
           );
         },
       ),
