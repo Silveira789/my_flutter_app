@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../models/post.dart';
-import '../../services/api_service.dart';
+import '../../../models/post.dart';
+import '../../../services/api_service.dart';
+import '../../../screens/posts/post_details_screen.dart';
+import '../../../widgets/like_button.dart';
 
 class PostsScreen extends StatefulWidget {
   const PostsScreen({super.key});
@@ -61,28 +63,52 @@ class _PostsScreenState extends State<PostsScreen> {
             itemCount: posts.length,
             itemBuilder: (context, index) {
               final post = posts[index];
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                child: Card(
-                  elevation: 3,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          post.title,
-                          style: TextStyle(
-                            fontSize: screenWidth > 600 ? 22 : 18,
-                            fontWeight: FontWeight.bold,
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => PostDetailScreen(post: post),
+                    ),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  child: Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            post.title,
+                            style: TextStyle(
+                              fontSize: screenWidth > 600 ? 22 : 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blueGrey[900],
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          post.body,
-                          style: TextStyle(fontSize: screenWidth > 600 ? 18 : 14),
-                        ),
-                      ],
+                          const SizedBox(height: 8),
+                          Text(
+                            post.body,
+                            style: TextStyle(
+                              fontSize: screenWidth > 600 ? 18 : 14,
+                              color: Colors.grey[800],
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: const [
+                              LikeButton(),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../models/post.dart';
+import '../../../models/post.dart';
 
 class PostsDesktopView extends StatelessWidget {
   final List<Post> posts;

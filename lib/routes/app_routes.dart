@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter_app/screens/post_screen.dart';
+import 'package:my_flutter_app/screens/posts/posts_screen.dart';
 import '../screens/home_screen.dart';
 import '../screens/details_screen.dart';
 import '../screens/profile_screen.dart';
