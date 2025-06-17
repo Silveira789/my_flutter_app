@@ -42,28 +42,29 @@ O projeto também possui telas de configuração, perfil de usuário com ediçã
 
 ### Estrutura do Projeto:
 
+O código está organizado para facilitar manutenção e escalabilidade, conforme explicado abaixo:
 
-lib/
-├── main.dart             # Ponto de entrada da aplicação e rotas nomeadas
-├── models/               # Modelos de dados (Post, User, Comentário)
-│   ├── post.dart
-│   ├── user.dart
-│   └── comment.dart
-├── screens/              # Telas do app
-│   ├── home/
-│   │   └── home_screen.dart
-│   ├── posts/
-│   │   ├── posts_screen.dart
-│   │   └── post_details_screen.dart
-│   ├── profile/
-│   │   └── profile_screen.dart
-│   ├── settings/
-│   │   └── settings_screen.dart
-│   └── users/
-│       └── users_screen.dart
-├── services/             # Serviços de API e lógica de dados
-│   └── api_service.dart
-└── widgets/              # Widgets reutilizáveis (ex: FeatureCard)
-└── feature_card.dart
+- **`lib/main.dart`**  
+  Arquivo principal que inicializa o app, define as rotas nomeadas e configura o tema.
+
+- **`lib/models/`**  
+  Contém as classes que representam os dados usados na aplicação, como `Post`, `User` e `Comment`.  
+  Essas classes facilitam o mapeamento dos dados JSON recebidos da API para objetos Dart.
+
+- **`lib/screens/`**  
+  Pasta com todas as telas do aplicativo, separadas em subpastas por funcionalidade:
+    - **home/**: Tela inicial com opções para navegar ao restante do app.
+    - **posts/**: Tela para listar posts e tela de detalhes de cada post.
+    - **profile/**: Tela de perfil do usuário, exibindo e permitindo edição simples dos dados.
+    - **settings/**: Tela de configurações do app.
+    - **users/**: Tela para visualizar lista de usuários (se implementada).
+
+- **`lib/services/`**  
+  Contém classes responsáveis pelo acesso e consumo da API, além do tratamento dos dados antes de serem utilizados nas telas.
+
+- **`lib/widgets/`**  
+  Contém widgets reutilizáveis usados em diferentes partes do app, como cartões de funcionalidade e componentes UI customizados.
+
+---
 
 
