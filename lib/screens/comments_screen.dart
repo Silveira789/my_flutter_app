@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../services/comment_store.dart';
 
 class CommentsScreen extends StatefulWidget {
   final int postId;
@@ -10,16 +11,24 @@ class CommentsScreen extends StatefulWidget {
 }
 
 class _CommentsScreenState extends State<CommentsScreen> {
-  final List<String> _comments = [];
+  late List<String> _comments;
   final TextEditingController _controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _comments = CommentStore().getComments(widget.postId);
+  }
 
   void _addComment() {
     final text = _controller.text.trim();
     if (text.isEmpty) return;
 
     setState(() {
-      _comments.add(text);
+      CommentStore().addComment(widget.postId, text);
+      _comments = CommentStore().getComments(widget.postId);
     });
+
     _controller.clear();
   }
 
@@ -33,7 +42,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Comentários do post ${widget.postId}'),
+        title: Text('Comentários do Post ${widget.postId}'),
       ),
       body: Column(
         children: [
