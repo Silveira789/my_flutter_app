@@ -9,7 +9,7 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bem-vindo ao Demo App'),
+        title: const Text('Bem-vindo'),
         centerTitle: true,
       ),
       drawer: Drawer(
@@ -27,13 +27,19 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             ListTile(
+              leading: const Icon(Icons.person),
+              title: const Text('Perfil'),
+              onTap: () {
+                Navigator.pop(context); // fecha o Drawer
+                Navigator.pushNamed(context, '/profile'); // abre a tela Perfil
+              },
+            ),
+            ListTile(
               leading: const Icon(Icons.settings),
               title: const Text('Configurações'),
               onTap: () {
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Funcionalidade em desenvolvimento')),
-                );
+                Navigator.pop(context); // fecha o Drawer
+                Navigator.pushNamed(context, '/settings'); // abre a tela de Configurações
               },
             ),
             ListTile(
@@ -54,42 +60,31 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Escolha uma funcionalidade:',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      body: Center(  // Centraliza o conteúdo no eixo horizontal e vertical
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SizedBox(
+            width: screenWidth > 600 ? 400 : double.infinity, // limita largura em telas maiores
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text(
+                  'Escolha uma funcionalidade:',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                _FeatureCard(
+                  icon: Icons.article,
+                  title: 'Posts',
+                  subtitle: 'Ver lista de posts',
+                  onTap: () {
+                    Navigator.pushNamed(context, '/posts');
+                  },
+                ),
+              ],
             ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: screenWidth > 600 ? 3 : 2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                children: [
-                  _FeatureCard(
-                    icon: Icons.article,
-                    title: 'Posts',
-                    subtitle: 'Ver lista de posts',
-                    onTap: () {
-                      Navigator.pushNamed(context, '/posts');
-                    },
-                  ),
-                  _FeatureCard(
-                    icon: Icons.person,
-                    title: 'Usuários',
-                    subtitle: 'Ver lista de usuários',
-                    onTap: () {
-                      Navigator.pushNamed(context, '/users');
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
@@ -118,21 +113,22 @@ class _FeatureCard extends StatelessWidget {
         elevation: 4,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(24.0),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, size: 40, color: Theme.of(context).primaryColor),
-              const SizedBox(height: 12),
+              Icon(icon, size: 48, color: Theme.of(context).primaryColor),
+              const SizedBox(height: 16),
               Text(
                 title,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 8),
               Text(
                 subtitle,
                 textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 13, color: Colors.grey),
+                style: const TextStyle(fontSize: 15, color: Colors.grey),
               ),
             ],
           ),
