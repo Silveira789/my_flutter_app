@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../models/post.dart';
-import '../../../services/api_service.dart';
-import '../../../screens/posts/post_details_screen.dart';
-import '../../../widgets/like_button.dart';
+import '../../models/post.dart';
+import '../../services/api_service.dart';
+import '../../screens/posts/post_details_screen.dart';
+import '../../widgets/like_button.dart';
+import '../../widgets/comment_icon_button.dart';
 
 class PostsScreen extends StatefulWidget {
   const PostsScreen({super.key});
@@ -97,14 +98,16 @@ class _PostsScreenState extends State<PostsScreen> {
                             post.body,
                             style: TextStyle(
                               fontSize: screenWidth > 600 ? 18 : 14,
-                              color: Colors.grey[800],
+                              color: Colors.indigo,
                             ),
                           ),
                           const SizedBox(height: 12),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
-                            children: const [
-                              LikeButton(),
+                            children: [
+                              const LikeButton(),
+                              const SizedBox(width: 16),
+                              CommentIconButton(postId: post.id, initialCount: 0),
                             ],
                           ),
                         ],
