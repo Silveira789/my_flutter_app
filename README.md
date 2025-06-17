@@ -42,10 +42,28 @@ O projeto também possui telas de configuração, perfil de usuário com ediçã
 
 ### Estrutura do Projeto:
 
+
 lib/
-├── models/          # Modelos de dados (Post, User, Comentário)
-├── screens/         # Telas do app (Home, Posts, PostDetails, Profile, Settings)
-├── services/        # Serviços (API)
-├── widgets/         # Widgets reutilizáveis
-└── main.dart        # Entry point do app e rotas
+├── main.dart             # Ponto de entrada da aplicação e rotas nomeadas
+├── models/               # Modelos de dados (Post, User, Comentário)
+│   ├── post.dart
+│   ├── user.dart
+│   └── comment.dart
+├── screens/              # Telas do app
+│   ├── home/
+│   │   └── home_screen.dart
+│   ├── posts/
+│   │   ├── posts_screen.dart
+│   │   └── post_details_screen.dart
+│   ├── profile/
+│   │   └── profile_screen.dart
+│   ├── settings/
+│   │   └── settings_screen.dart
+│   └── users/
+│       └── users_screen.dart
+├── services/             # Serviços de API e lógica de dados
+│   └── api_service.dart
+└── widgets/              # Widgets reutilizáveis (ex: FeatureCard)
+└── feature_card.dart
+
 
